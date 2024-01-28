@@ -20,8 +20,6 @@ class Perform2SequentialNetworkRequestsViewModel(
             }catch (e: Exception){
                 uiState.value = UiState.Error(e.message!!)
             }
-
-
         }
     }
 }
