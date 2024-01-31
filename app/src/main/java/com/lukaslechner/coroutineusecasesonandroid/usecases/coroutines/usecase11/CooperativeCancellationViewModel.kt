@@ -43,7 +43,7 @@ class CooperativeCancellationViewModel(
 
     private suspend fun calculateFactorialOf(number: Int) :BigInteger{
         return withContext(Dispatchers.Default){
-            
+
             var factorial = BigInteger.ONE
             for (i in 1..number){
                 yield()
