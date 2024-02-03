@@ -2,6 +2,7 @@ package com.lukaslechner.coroutineusecasesonandroid.usecases.flow.usecase1
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.lukaslechner.coroutineusecasesonandroid.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,22 +20,12 @@ class FlowUseCase1ViewModel(
     stockPriceDataSource: StockPriceDataSource
 ) : BaseViewModel<UiState>() {
 
-    val currentStockPriceAsLiveData: MutableLiveData<UiState> = MutableLiveData()
-
-    init {
-
-        stockPriceDataSource.latestStockList
-            .map {
-                UiState.Success(it) as UiState
-            }
-            .onStart {
-               emit(UiState.Loading)
-            }
-            .onEach {
-                currentStockPriceAsLiveData.value = it
-            }
-            .launchIn(viewModelScope)
-
-    }
-
+    val currentStockPriceAsLiveData: LiveData<UiState> =  stockPriceDataSource.latestStockList
+        .map {
+            UiState.Success(it) as UiState
+        }
+        .onStart {
+            emit(UiState.Loading)
+        }
+        .asLiveData()
 }
